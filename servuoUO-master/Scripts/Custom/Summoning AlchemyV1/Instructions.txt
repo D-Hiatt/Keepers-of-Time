@@ -1,0 +1,13 @@
+Put all files in a customs folder and add the following to BasePotion.cs
+
+
+add
+
+		BloodElemental,
+		EarthElemental,
+		FireElemental,
+		PoisonElemental,
+		WaterElemental,
+to the
+   public enum PotionEffect
+    {

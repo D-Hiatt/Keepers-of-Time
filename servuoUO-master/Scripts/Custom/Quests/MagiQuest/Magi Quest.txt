@@ -1,0 +1,13 @@
+Magi Quest 
+
+--------------------------------------------------------------------------------
+
+Im kinda new to learning scripting and im enjoying it as well. I decided to script my first quest. Its a quest for a magis armor. I do not take credit for most of the items within the script. i would thank who made the magi items but i do not know who came up with them. The scripts i created were the monsters, few items such as the scroll of the magi and ore of the magi, the gump and mobiles.
+to setup the quest is very simple. just add it to your custom script and take out your hat of the magi and staff of the magi in your items/weapons/artifacts and items/clothing/artifacts folder.
+
+First place Magicus the Master of the magi anywhere you wish for the quest to begin. Next place the Magi Elemental anywhere deep within Wisp Dungeon. The place the Magi Dragon in Destard. Preferably level 3 away from the ancient wyrm. 
+[add MasterMagi
+[add MagiElemental
+[add MagiDragon
+
+The monsters can be strong so test them and adjust them to your likings for the shard
