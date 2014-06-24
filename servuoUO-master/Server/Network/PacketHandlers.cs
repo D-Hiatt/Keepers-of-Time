@@ -157,6 +157,9 @@ namespace Server.Network
 			#region Stygian Abyss
 			RegisterExtended(0x32, true, ToggleFlying);
 			#endregion
+			//Smooth Move START
+			RegisterExtended(0x33,  true, MultiMouseMovementRequest);
+			//Smooth Move END
 
 			RegisterEncoded(0x19, true, SetAbility);
 			RegisterEncoded(0x28, true, GuildGumpRequest);
@@ -2964,5 +2967,26 @@ namespace Server.Network
 			state.Send(new AccountLoginRej(reason));
 			state.Dispose();
 		}
+		
+		//Smooth Move START
+        public static void MultiMouseMovementRequest(NetState state, PacketReader reader)
+        {
+            Serial playerSerial = reader.ReadInt32();
+            Direction movement = (Direction)reader.ReadByte();
+            reader.ReadByte(); // movement direction duplicated
+            int speed = reader.ReadByte();
+
+            Mobile mob = World.FindMobile(playerSerial);
+            if (mob == null || mob.NetState == null || !mob.Mounted)
+                return;
+
+            IMount multi = mob.Mount;
+            if (!(multi is BaseSmoothMulti))
+                return;
+
+            BaseSmoothMulti smooth = (BaseSmoothMulti)multi;
+            smooth.OnMousePilotCommand(mob, movement, speed);
+        }
+		//Smooth Move END
 	}
 }

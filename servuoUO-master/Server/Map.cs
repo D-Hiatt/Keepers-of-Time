@@ -945,7 +945,18 @@ namespace Server
 			}
 
 			Sector sector = GetSector(m);
-
+			
+            #region SmoothMulti
+            for (int i = 0; i < sector.Multis.Count; ++i)
+            {
+                BaseMulti multi = sector.Multis[i];
+                if (multi is BaseSmoothMulti && multi.Contains(m))
+                {
+                    ((BaseSmoothMulti)multi).Embark(m);
+                    break;
+                }
+            }
+            #endregion
 			sector.OnEnter(m);
 		}
 
@@ -956,7 +967,21 @@ namespace Server
 				return;
 			}
 
-			GetSector(item).OnEnter(item);
+//			GetSector(item).OnEnter(item);
+			Sector sector = GetSector(item); //Modified for SmoothMulti
+            #region SmoothMulti
+            for (int i = 0; i < sector.Multis.Count; ++i)
+            {
+                BaseMulti multi = sector.Multis[i];
+                if (multi is BaseSmoothMulti && multi.Contains(item))
+                {
+                    ((BaseSmoothMulti)multi).Embark(item);
+                    break;
+                }
+            }
+            #endregion 
+			
+			sector.OnEnter(item); //Modified for SmoothMulti
 
 			if (item is BaseMulti)
 			{
@@ -978,7 +1003,11 @@ namespace Server
 			}
 
 			Sector sector = GetSector(m);
-
+			
+            #region SmoothMulti
+            if (m.IsEmbarked)
+                m.Transport.Disembark(m);
+            #endregion
 			sector.OnLeave(m);
 		}
 
@@ -989,7 +1018,15 @@ namespace Server
 				return;
 			}
 
-			GetSector(item).OnLeave(item);
+//			GetSector(item).OnLeave(item);
+			Sector sector = GetSector(item); //Modified for SmoothMulti
+			
+            #region SmoothMulti
+            if (item.IsEmbarked)
+                item.Transport.Disembark(item);
+            #endregion			
+			
+			sector.OnLeave(item); //Modified for SmoothMulti
 
 			if (item is BaseMulti)
 			{
@@ -1045,7 +1082,8 @@ namespace Server
 			return GetSector(Bound(new Point2D(loc.m_X + mcl.Max.m_X, loc.m_Y + mcl.Max.m_Y)));
 		}
 
-		public void OnMove(Point3D oldLocation, Mobile m)
+		public void OnMove(Point3D oldLocation, Mobile m, bool checkMulti = true) //Modified for SmoothMulti
+//		public void OnMove(Point3D oldLocation, Mobile m)
 		{
 			if (this == Internal)
 			{
@@ -1060,9 +1098,32 @@ namespace Server
 				oldSector.OnLeave(m);
 				newSector.OnEnter(m);
 			}
+            #region SmoothMulti
+            if (checkMulti)
+            {
+                if (m.IsEmbarked)
+                {
+                    if (m.Transport.Contains(m))
+                        return;
+
+                    m.Transport.Disembark(m);
+                }
+
+                for (int i = 0; i < newSector.Multis.Count; ++i)
+                {
+                    BaseMulti multi = newSector.Multis[i];
+                    if (multi is BaseSmoothMulti && multi.Contains(m))
+                    {
+                        ((BaseSmoothMulti)multi).Embark(m);
+                        break;
+                    }
+                }
+            }
+            #endregion	
 		}
 
-		public void OnMove(Point3D oldLocation, Item item)
+		public void OnMove(Point3D oldLocation, Item item, bool checkMulti = true) //Modified for SmoothMulti
+//		public void OnMove(Point3D oldLocation, Item item)
 		{
 			if (this == Internal)
 			{
@@ -1078,6 +1139,28 @@ namespace Server
 				newSector.OnEnter(item);
 			}
 
+            #region SmoothMulti
+            if (checkMulti)
+            {
+                if (item.IsEmbarked)
+                {
+                    if (item.Transport.Contains(item))
+                        return;
+
+                    item.Transport.Disembark(item);
+                }
+
+                for (int i = 0; i < newSector.Multis.Count; ++i)
+                {
+                    BaseMulti multi = newSector.Multis[i];
+                    if (multi is BaseSmoothMulti && multi.Contains(item))
+                    {
+                        ((BaseSmoothMulti)multi).Embark(item);
+                        break;
+                    }
+                }
+            }
+            #endregion
 			if (item is BaseMulti)
 			{
 				BaseMulti m = (BaseMulti)item;

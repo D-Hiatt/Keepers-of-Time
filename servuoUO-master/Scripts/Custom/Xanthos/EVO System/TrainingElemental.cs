@@ -75,10 +75,10 @@ namespace Xanthos.Evo
 		{
 			base.OnThink();
 
-#pragma warning disable
+//#pragma warning disable
 			if ( kInvulnerable && Hits < HitsMax )
 				Hits = HitsMax;
-#pragma warning enable
+//#pragma warning enable
 		}
 
 		public TrainingElemental( Serial serial ) : base( serial )
