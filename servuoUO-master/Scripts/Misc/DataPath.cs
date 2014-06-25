@@ -11,7 +11,7 @@ namespace Server.Misc
         * change the 'CustomPath' value.
         *Example:
 		*/
-          private static string CustomPath = @"D:\servuo test\UOKOT Custom Client";
+          private static string CustomPath = @"D:\Repo-ServUO";
         
         //private static readonly string CustomPath = @"C:\Server";
         /* The following is a list of files which a required for proper execution:

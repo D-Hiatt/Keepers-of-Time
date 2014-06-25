@@ -66,7 +66,7 @@ namespace Server.Mobiles
 			{
 				switch ( Utility.Random( 10 ) )
 				{
-				/*	case 0: c.DropItem( new SorcererArms() );	break;//1		
+					case 0: c.DropItem( new SorcererArms() );	break;//1		
 					case 1: c.DropItem( new SorcererChest() ); break;//1
 					case 2: c.DropItem( new SorcererFemaleChest() ); break;//2
 					case 3: c.DropItem( new SorcererGloves() ); break;//2
@@ -76,7 +76,7 @@ namespace Server.Mobiles
 					case 7: c.DropItem( new SorcererSkirt() ); break;//4
 					case 8: c.DropItem( new EtoileBleue() ); break;//3
 					case 9: c.DropItem( new NovoBleue() ); break;//4	
-				*/	
+
 				}
 			}
 		}
